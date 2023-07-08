@@ -12,7 +12,7 @@ defaults:
 
 jobs:
   build:
-    name: ${{ matrix.platform.name }} ${{ matrix.type.name }}
+    name: ${{ matrix.platform.name }} ${{ matrix.config.name }} ${{ matrix.type.name }}
     runs-on: ${{ matrix.platform.os }}
 
     strategy:
@@ -28,6 +28,9 @@ jobs:
         - { name: Linux GCC,           os: ubuntu-22.04, flags: -GNinja }
         - { name: Linux Clang,         os: ubuntu-22.04, flags: -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
         - { name: MacOS,               os: macos-12,     flags: -GNinja }
+        config:
+        - { name: Shared, flags: -DBUILD_SHARED_LIBS=TRUE }
+        - { name: Static, flags: -DBUILD_SHARED_LIBS=FALSE }
         type:
         - { name: Debug }
         - { name: Release }
@@ -61,7 +64,7 @@ jobs:
         path: CSFML
 
     - name: Configure CSFML CMake
-      run: cmake -S CSFML -B CSFML/build -DCMAKE_INSTALL_PREFIX=CSFML/install -DBUILD_SHARED_LIBS=TRUE -DCSFML_BUILD_EXAMPLES=TRUE -DCSFML_LINK_SFML_STATICALLY=FALSE -DSFML_DIR=$GITHUB_WORKSPACE/SFML/install/lib/cmake/SFML -DCMAKE_VERBOSE_MAKEFILE=ON -DWARNINGS_AS_ERRORS=TRUE ${{matrix.platform.flags}} -DCMAKE_BUILD_TYPE=${{matrix.type.name}}
+      run: cmake -S CSFML -B CSFML/build -DCMAKE_INSTALL_PREFIX=CSFML/install -DCSFML_BUILD_EXAMPLES=TRUE -DCSFML_LINK_SFML_STATICALLY=FALSE -DSFML_DIR=$GITHUB_WORKSPACE/SFML/install/lib/cmake/SFML -DCMAKE_VERBOSE_MAKEFILE=ON -DWARNINGS_AS_ERRORS=TRUE ${{matrix.platform.flags}} ${{matrix.config.flags}} -DCMAKE_BUILD_TYPE=${{matrix.type.name}}
 
     - name: Build CSFML
       run: cmake --build CSFML/build --config ${{matrix.type.name}} --target install

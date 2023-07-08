@@ -85,23 +85,33 @@
 ////////////////////////////////////////////////////////////
 // Define helpers to create portable import / export macros for each module
 ////////////////////////////////////////////////////////////
-#if defined(CSFML_SYSTEM_WINDOWS)
+#if !defined(CSFML_STATIC)
 
-    // Windows compilers need specific (and different) keywords for export and import
-    #define CSFML_API_EXPORT extern "C" __declspec(dllexport)
-    #define CSFML_API_IMPORT CSFML_EXTERN_C __declspec(dllimport)
+    #if defined(CSFML_SYSTEM_WINDOWS)
 
-    // For Visual C++ compilers, we also need to turn off this annoying C4251 warning
-    #ifdef _MSC_VER
+        // Windows compilers need specific (and different) keywords for export and import
+        #define CSFML_API_EXPORT extern "C" __declspec(dllexport)
+        #define CSFML_API_IMPORT CSFML_EXTERN_C __declspec(dllimport)
 
-        #pragma warning(disable : 4251)
+        // For Visual C++ compilers, we also need to turn off this annoying C4251 warning
+        #ifdef _MSC_VER
+
+            #pragma warning(disable : 4251)
+
+        #endif
+
+    #else // Linux, FreeBSD, Mac OS X
+
+        #define CSFML_API_EXPORT extern "C" __attribute__ ((__visibility__ ("default")))
+        #define CSFML_API_IMPORT CSFML_EXTERN_C __attribute__ ((__visibility__ ("default")))
 
     #endif
 
-#else // Linux, FreeBSD, Mac OS X
+#else
 
-    #define CSFML_API_EXPORT extern "C" __attribute__ ((__visibility__ ("default")))
-    #define CSFML_API_IMPORT CSFML_EXTERN_C __attribute__ ((__visibility__ ("default")))
+    // Static build doesn't need import/export macros
+    #define CSFML_API_EXPORT extern "C"
+    #define CSFML_API_IMPORT CSFML_EXTERN_C
 
 #endif
 
