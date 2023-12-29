@@ -35,10 +35,7 @@
 ////////////////////////////////////////////////////////////
 // Internal structure of sfBuffer
 ////////////////////////////////////////////////////////////
-struct sfBuffer
-{
-    std::vector<sf::Uint8> buffer;
-};
+struct sfBuffer : std::vector<sf::Uint8> {};
 
 
 #endif // SFML_BUFFERSTRUCT_H

@@ -48,7 +48,7 @@ void sfBuffer_destroy(sfBuffer* buffer)
 size_t sfBuffer_getSize(const sfBuffer* buffer)
 {
     CSFML_CHECK_RETURN(buffer, 0);
-    return buffer->buffer.size();
+    return buffer->size();
 }
 
 
@@ -56,5 +56,5 @@ size_t sfBuffer_getSize(const sfBuffer* buffer)
 const sfUint8* sfBuffer_getData(const sfBuffer* buffer)
 {
     CSFML_CHECK_RETURN(buffer, NULL);
-    return !buffer->buffer.empty() ? &buffer->buffer[0] : NULL;
+    return !buffer->empty() ? &(*buffer)[0] : NULL;
 }

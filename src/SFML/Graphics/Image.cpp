@@ -137,7 +137,7 @@ sfBool sfImage_saveToFile(const sfImage* image, const char* filename)
 sfBool sfImage_saveToMemory(const sfImage* image, sfBuffer* output, const char* format)
 {
     CSFML_CHECK_RETURN(output, sfFalse);
-    CSFML_CALL_RETURN(image, saveToMemory(output->buffer, format), sfFalse);
+    CSFML_CALL_RETURN(image, saveToMemory(*output, format), sfFalse);
 }
 
 
