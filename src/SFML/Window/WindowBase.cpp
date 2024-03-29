@@ -259,7 +259,7 @@ bool sfWindowBase_hasFocus(const sfWindowBase* windowBase)
 ////////////////////////////////////////////////////////////
 sfWindowHandle sfWindowBase_getNativeHandle(const sfWindowBase* windowBase)
 {
-    CSFML_CHECK_RETURN(windowBase, 0);
+    CSFML_CHECK_RETURN(windowBase, sfWindowHandle{});
 
     return static_cast<sfWindowHandle>(windowBase->This.getNativeHandle());
 }

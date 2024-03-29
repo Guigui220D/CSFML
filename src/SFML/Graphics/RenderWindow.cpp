@@ -345,7 +345,7 @@ void sfRenderWindow_setJoystickThreshold(sfRenderWindow* renderWindow, float thr
 ////////////////////////////////////////////////////////////
 sfWindowHandle sfRenderWindow_getNativeHandle(const sfRenderWindow* renderWindow)
 {
-    CSFML_CHECK_RETURN(renderWindow, 0);
+    CSFML_CHECK_RETURN(renderWindow, sfWindowHandle{});
 
     return static_cast<sfWindowHandle>(renderWindow->This.getNativeHandle());
 }
